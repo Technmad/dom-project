@@ -9,6 +9,8 @@ const allGuesses = [];
 let guessUsed = 1;
 let playgame = true;
 
+let p = document.querySelector('.lowOrHi');
+
 if (playgame) {
   playGame();
 }
@@ -35,6 +37,7 @@ function validateGuess(guess) {
       displayMessage(`Game over Random number was ${randomNumber} `);
       endGame();
     } else {
+      guessUsed++;
       showUserGuess(guess);
       checkGuess(guess);
     }
@@ -44,22 +47,23 @@ function validateGuess(guess) {
 function checkGuess(guess) {
   if (guess === randomNumber) {
     displayMessage('Congrats! You Guessed it right ');
-    guessUsed++;
     endGame();
   } else if (guess < randomNumber) {
     displayMessage('Nope! You Guessed it tooo low ');
-    guessUsed++;
-  }else if (guess > randomNumber) {
+  } else if (guess > randomNumber) {
     displayMessage('Nope! You Guessed it tooo high ');
-    guessUsed++;
+  }
 }
 
 function displayMessage(message) {
-  //
+  p.innerHTML = `<h2>${message}</h2>`;
+  //console.log(p.innerHTML);
 }
 
 function showUserGuess(guess) {
-  //
+  guessRemained.innerHTML = 11 - guessUsed;
+  allGuesses.push(guess);
+  lastguess.innerHTML = allGuesses;
 }
 
 function playAgain() {
