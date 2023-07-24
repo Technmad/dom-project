@@ -5,13 +5,15 @@ const submit = document.querySelector('#subt');
 const userGuess = document.querySelector('#guessField');
 const lastguess = document.querySelector('.guesses');
 const guessRemained = document.querySelector('.lastResult');
-const allGuesses = [];
+const resultPara = document.querySelector('.resultParas');
+let allGuesses = [];
 let guessUsed = 1;
 let playgame = true;
 
-let p = document.querySelector('.lowOrHi');
+let lowOrHi = document.querySelector('.lowOrHi');
+let playAgainMsg = document.createElement('p');
 
-if (playgame) {
+if (playgame && guessUsed < 11) {
   playGame();
 }
 
@@ -56,20 +58,38 @@ function checkGuess(guess) {
 }
 
 function displayMessage(message) {
-  p.innerHTML = `<h2>${message}</h2>`;
+  lowOrHi.innerHTML = `<h2>${message}</h2>`;
   //console.log(p.innerHTML);
 }
 
 function showUserGuess(guess) {
-  guessRemained.innerHTML = 11 - guessUsed;
+  userGuess.value = '';
   allGuesses.push(guess);
-  lastguess.innerHTML = allGuesses;
+  guessRemained.innerHTML = `${11 - guessUsed}`;
+  lastguess.innerHTML += ` ${guess} `;
 }
 
 function playAgain() {
-  //
+  playAgainMsg.addEventListener('click', function (e) {
+    userGuess.removeAttribute('disabled');
+    //userGuess.value = ' ';
+    randomNumber = parseInt(Math.random() * 100 + 1);
+    allGuesses = [];
+    guessUsed = 1;
+    lastguess.innerHTML = '';
+    guessRemained.innerHTML = `${11 - guessUsed} `;
+    resultPara.removeChild(playAgainMsg);
+    lowOrHi.innerHTML = '';
+    playGame = true;
+  });
 }
 
 function endGame() {
-  //
+  userGuess.value = ' ';
+  userGuess.setAttribute('disabled', '');
+  playAgainMsg.classList.add('button');
+  playAgainMsg.innerHTML = `<h2 id='newGame'>Play Again</h2>`;
+  resultPara.appendChild(playAgainMsg);
+  playGame = false;
+  playAgain();
 }
